@@ -15,9 +15,9 @@ PkgConfigBR:
     - QtDeclarative
     - mlite
 Provides:
-    - nemo-qml-plugins-configuration > 0.3.11
+    - nemo-qml-plugins-configuration > 0.3.13
 Obsoletes:
-    - nemo-qml-plugins-configuration <= 0.3.11
+    - nemo-qml-plugins-configuration <= 0.3.13
 Files:
     - "%{_libdir}/qt4/imports/org/nemomobile/configuration/libnemoconfiguration.so"
     - "%{_libdir}/qt4/imports/org/nemomobile/configuration/qmldir"

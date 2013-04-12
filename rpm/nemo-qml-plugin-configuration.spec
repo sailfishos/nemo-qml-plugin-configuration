@@ -19,8 +19,8 @@ Source100:  nemo-qml-plugin-configuration.yaml
 BuildRequires:  pkgconfig(QtCore) >= 4.7.0
 BuildRequires:  pkgconfig(QtDeclarative)
 BuildRequires:  pkgconfig(mlite)
-Provides:   nemo-qml-plugins-configuration > 0.3.11
-Obsoletes:   nemo-qml-plugins-configuration <= 0.3.11
+Provides:   nemo-qml-plugins-configuration > 0.3.13
+Obsoletes:   nemo-qml-plugins-configuration <= 0.3.13
 
 %description
 %{summary}.
