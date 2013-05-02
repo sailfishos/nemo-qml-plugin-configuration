@@ -30,14 +30,27 @@
  */
 
 #include <QtGlobal>
-#include <QtDeclarative>
-#include <QDeclarativeEngine>
-#include <QDeclarativeExtensionPlugin>
+#if QT_VERSION >= QT_VERSION_CHECK(5, 0, 0)
+# include <QtQml>
+# include <QQmlEngine>
+# include <QQmlExtensionPlugin>
+# define QDeclarativeEngine QQmlEngine
+# define QDeclarativeExtensionPlugin QQmlExtensionPlugin
+#else
+# include <QtDeclarative>
+# include <QDeclarativeEngine>
+# include <QDeclarativeExtensionPlugin>
+#endif
 
 #include "configurationvalue.h"
 
 class Q_DECL_EXPORT NemoConfigurationValuePlugin : public QDeclarativeExtensionPlugin
 {
+    Q_OBJECT
+#if QT_VERSION >= QT_VERSION_CHECK(5, 0, 0)
+    Q_PLUGIN_METADATA(IID "org.nemomobile.configuration")
+#endif
+
 public:
     virtual ~NemoConfigurationValuePlugin() { }
 
@@ -48,5 +61,8 @@ public:
     }
 };
 
+#if QT_VERSION < QT_VERSION_CHECK(5, 0, 0)
 Q_EXPORT_PLUGIN2(nemoconfiguration, NemoConfigurationValuePlugin);
+#endif
 
+#include "plugin.moc"
