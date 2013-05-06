@@ -1,0 +1,19 @@
+Name: nemo-qml-plugin-configuration-qt5
+Summary: Configuration plugin for Nemo Mobile
+URL: https://github.com/nemomobile/nemo-qml-plugin-configuration
+Group: System/Libraries
+Description: "%{summary}."
+Version: 0.0.0
+Release: 1
+Sources:
+    - "%{name}-%{version}.tar.bz2"
+License: BSD
+Configure: none
+Builder: qmake5
+PkgConfigBR:
+    - Qt5Core
+    - Qt5Qml
+    - mlite5
+Files:
+    - "%{_libdir}/qt5/qml/org/nemomobile/configuration/libnemoconfiguration.so"
+    - "%{_libdir}/qt5/qml/org/nemomobile/configuration/qmldir"
