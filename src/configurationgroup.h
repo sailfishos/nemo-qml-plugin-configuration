@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2012 Jolla Ltd. <robin.burchell@jollamobile.com>
+ * Copyright (C) 2014 Jolla Mobile <andrew.den.exter@jollamobile.com>
  *
  * You may use this file under the terms of the BSD license as follows:
  *
@@ -29,42 +29,43 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE."
  */
 
-#include <QtGlobal>
-#if QT_VERSION >= QT_VERSION_CHECK(5, 0, 0)
-# include <QtQml>
-# include <QQmlEngine>
-# include <QQmlExtensionPlugin>
-# define QDeclarativeEngine QQmlEngine
-# define QDeclarativeExtensionPlugin QQmlExtensionPlugin
+#ifndef CONFIGURATIONGROUP_H
+#define CONFIGURATIONGROUP_H
+
+#include <MDConfGroup>
+
+#if QT_VERSION_5
+# include <QQmlParserStatus>
+# include <QQmlListProperty>
+# define QDeclarativeParserStatus QQmlParserStatus
+# define QDeclarativeListProperty QQmlListProperty
 #else
-# include <QtDeclarative>
-# include <QDeclarativeEngine>
-# include <QDeclarativeExtensionPlugin>
+# include <qdeclarative.h>
+# include <QDeclarativeParserStatus>
+# include <QDeclarativeListProperty>
 #endif
 
-#include "configurationgroup.h"
-#include "configurationvalue.h"
-
-class Q_DECL_EXPORT NemoConfigurationValuePlugin : public QDeclarativeExtensionPlugin
+class ConfigurationGroup : public MDConfGroup, public QDeclarativeParserStatus
 {
     Q_OBJECT
-#if QT_VERSION >= QT_VERSION_CHECK(5, 0, 0)
-    Q_PLUGIN_METADATA(IID "org.nemomobile.configuration")
-#endif
-
+    Q_PROPERTY(QDeclarativeListProperty<QObject> data READ data CONSTANT)
+    Q_INTERFACES(QDeclarativeParserStatus)
+    Q_CLASSINFO("DefaultProperty", "data")
 public:
-    virtual ~NemoConfigurationValuePlugin() { }
+    ConfigurationGroup(QObject *parent = 0);
+    ~ConfigurationGroup();
 
-    void registerTypes(const char *uri)
-    {
-        Q_ASSERT(uri == QLatin1String("org.nemomobile.configuration"));
-        qmlRegisterType<ConfigurationGroup>(uri, 1, 0, "ConfigurationGroup");
-        qmlRegisterType<ConfigurationValue>(uri, 1, 0, "ConfigurationValue");
-    }
+    void classBegin();
+    void componentComplete();
+
+    QDeclarativeListProperty<QObject> data();
+
+    static void data_append(QDeclarativeListProperty<QObject> *property, QObject *value);
+    static QObject *data_at(QDeclarativeListProperty<QObject> *property, int index);
+    static int data_count(QDeclarativeListProperty<QObject> *property);
+    static void data_clear(QDeclarativeListProperty<QObject> *property);
+
+    QList<QObject *> m_data;
 };
 
-#if QT_VERSION < QT_VERSION_CHECK(5, 0, 0)
-Q_EXPORT_PLUGIN2(nemoconfiguration, NemoConfigurationValuePlugin);
 #endif
-
-#include "plugin.moc"

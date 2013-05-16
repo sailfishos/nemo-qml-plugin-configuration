@@ -16,10 +16,15 @@ qmldir.path +=  $$target.path
 INSTALLS += qmldir
 
 SOURCES += plugin.cpp \
+           configurationgroup.cpp \
            configurationvalue.cpp
 
-HEADERS += configurationvalue.h
+HEADERS += configurationgroup.h \
+           configurationvalue.h
+
 
 CONFIG += link_pkgconfig
 equals(QT_MAJOR_VERSION, 4): PKGCONFIG += mlite
 equals(QT_MAJOR_VERSION, 5): PKGCONFIG += mlite5
+
+equals(QT_MAJOR_VERSION, 5): DEFINES += QT_VERSION_5

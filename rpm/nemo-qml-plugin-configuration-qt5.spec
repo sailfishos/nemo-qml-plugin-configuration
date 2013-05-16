@@ -23,6 +23,14 @@ BuildRequires:  pkgconfig(mlite5)
 %description
 %{summary}.
 
+%package tests
+Summary:    Configuration plugin tests
+Group:      System/Libraries
+Requires:   %{name} = %{version}-%{release}
+
+%description tests
+%{summary}.
+
 %prep
 %setup -q -n %{name}-%{version}
 
@@ -55,3 +63,9 @@ rm -rf %{buildroot}
 %{_libdir}/qt5/qml/org/nemomobile/configuration/qmldir
 # >> files
 # << files
+
+%files tests
+%defattr(-,root,root,-)
+/opt/tests/nemo-qml-plugins/configuration-qt5/*
+# >> files tests
+# << files tests

@@ -25,6 +25,14 @@ Obsoletes:   nemo-qml-plugins-configuration <= 0.3.13
 %description
 %{summary}.
 
+%package tests
+Summary:    Configuration plugin tests
+Group:      System/Libraries
+Requires:   %{name} = %{version}-%{release}
+
+%description tests
+%{summary}.
+
 
 %prep
 %setup -q -n %{name}-%{version}
@@ -59,3 +67,9 @@ rm -rf %{buildroot}
 %{_libdir}/qt4/imports/org/nemomobile/configuration/qmldir
 # >> files
 # << files
+
+%files tests
+%defattr(-,root,root,-)
+/opt/tests/nemo-qml-plugins/configuration/*
+# >> files tests
+# << files tests
