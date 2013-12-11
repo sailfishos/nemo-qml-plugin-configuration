@@ -100,3 +100,10 @@ void ConfigurationValue::setDefaultValue(const QVariant &value)
     if (value != oldValue)
         emit valueChanged();
 }
+
+void ConfigurationValue::sync()
+{
+    if (mItem) {
+        mItem->sync();
+    }
+}

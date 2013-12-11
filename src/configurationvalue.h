@@ -57,6 +57,9 @@ public:
     QVariant defaultValue() const;
     void setDefaultValue(const QVariant &defaultValue);
 
+public slots:
+    void sync();
+
 signals:
     void keyChanged();
     void valueChanged();
