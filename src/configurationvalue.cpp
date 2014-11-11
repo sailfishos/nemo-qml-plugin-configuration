@@ -92,12 +92,16 @@ QVariant ConfigurationValue::defaultValue() const
 
 void ConfigurationValue::setDefaultValue(const QVariant &value)
 {
+    if (mDefaultValue == value) {
+        return;
+    }
+
     QVariant oldValue = this->value();
     mDefaultValue = value;
     emit defaultValueChanged();
 
     // if changing the default changed the value, emit valueChanged
-    if (value != oldValue)
+    if (this->value() != oldValue)
         emit valueChanged();
 }
 
