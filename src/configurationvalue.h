@@ -45,15 +45,15 @@ class ConfigurationValue : public QObject
 public:
     ConfigurationValue(QObject *parent = 0);
 
-    Q_PROPERTY(QString key READ key WRITE setKey NOTIFY keyChanged);
+    Q_PROPERTY(QString key READ key WRITE setKey NOTIFY keyChanged)
     QString key() const;
     void setKey(const QString &key);
 
-    Q_PROPERTY(QVariant value READ value WRITE setValue NOTIFY valueChanged);
+    Q_PROPERTY(QVariant value READ value WRITE setValue NOTIFY valueChanged)
     QVariant value() const;
     void setValue(const QVariant &value);
 
-    Q_PROPERTY(QVariant defaultValue READ defaultValue WRITE setDefaultValue NOTIFY defaultValueChanged);
+    Q_PROPERTY(QVariant defaultValue READ defaultValue WRITE setDefaultValue NOTIFY defaultValueChanged)
     QVariant defaultValue() const;
     void setDefaultValue(const QVariant &defaultValue);
 
