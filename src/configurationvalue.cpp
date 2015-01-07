@@ -1,5 +1,6 @@
 /*
- * Copyright (C) 2012 Jolla Ltd. <robin.burchell@jollamobile.com>
+ * Copyright (C) 2012-2015 Jolla Ltd.
+ * Contact: <robin.burchell@jollamobile.com>
  *
  * You may use this file under the terms of the BSD license as follows:
  *
@@ -51,29 +52,31 @@ QString ConfigurationValue::key() const
     return mItem->key();
 }
 
-void ConfigurationValue::setKey(const QString &key)
+void ConfigurationValue::setKey(const QString &newKey)
 {
-    QVariant oldValue;
+    if (newKey == key())
+        return;
 
     // don't emit valueChanged unless absolutely necessary
-    if (mItem)
-        oldValue = mItem->value(mDefaultValue);
+    QVariant oldValue = value();
 
     delete mItem;
-    mItem = new MGConfItem(key, this);
-    connect(mItem, SIGNAL(valueChanged()), this, SIGNAL(valueChanged()));
+    if (newKey.isEmpty()) {
+        mItem = 0;
+    } else {
+        mItem = new MGConfItem(newKey, this);
+        connect(mItem, SIGNAL(valueChanged()), this, SIGNAL(valueChanged()));
+    }
 
     emit keyChanged();
-
-    // we deleted the old item, so we must emit ourselves in this case
-    if (oldValue != mItem->value(mDefaultValue))
+    if (oldValue != value())
         emit valueChanged();
 }
 
 QVariant ConfigurationValue::value() const
 {
     if (!mItem)
-        return QVariant();
+        return mDefaultValue;
 
     return mItem->value(mDefaultValue);
 }
