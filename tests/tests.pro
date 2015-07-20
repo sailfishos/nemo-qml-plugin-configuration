@@ -1,12 +1,7 @@
-TEMPLATE = subdirs
+TEMPLATE = aux
 
-equals(QT_MAJOR_VERSION, 4) {
-    target.files = auto-qt4/*
-    target.path = /opt/tests/nemo-qml-plugins/configuration/auto
-}
-equals(QT_MAJOR_VERSION, 5) {
-    target.files = auto-qt5/*
-    target.path = /opt/tests/nemo-qml-plugins/configuration-qt5/auto
-}
+target.files = \
+    auto/tst_configurationgroup.qml
+target.path = /opt/tests/nemo-qml-plugins-qt5/configuration/auto
 
 INSTALLS += target

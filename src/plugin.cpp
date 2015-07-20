@@ -29,28 +29,17 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE."
  */
 
-#include <QtGlobal>
-#if QT_VERSION >= QT_VERSION_CHECK(5, 0, 0)
-# include <QtQml>
-# include <QQmlEngine>
-# include <QQmlExtensionPlugin>
-# define QDeclarativeEngine QQmlEngine
-# define QDeclarativeExtensionPlugin QQmlExtensionPlugin
-#else
-# include <QtDeclarative>
-# include <QDeclarativeEngine>
-# include <QDeclarativeExtensionPlugin>
-#endif
+#include <QtQml/qqml.h>
+#include <QtQml/QQmlExtensionPlugin>
 
 #include "configurationgroup.h"
 #include "configurationvalue.h"
 
-class Q_DECL_EXPORT NemoConfigurationValuePlugin : public QDeclarativeExtensionPlugin
+class Q_DECL_EXPORT NemoConfigurationValuePlugin : public QQmlExtensionPlugin
 {
     Q_OBJECT
-#if QT_VERSION >= QT_VERSION_CHECK(5, 0, 0)
+
     Q_PLUGIN_METADATA(IID "org.nemomobile.configuration")
-#endif
 
 public:
     virtual ~NemoConfigurationValuePlugin() { }
@@ -62,9 +51,5 @@ public:
         qmlRegisterType<ConfigurationValue>(uri, 1, 0, "ConfigurationValue");
     }
 };
-
-#if QT_VERSION < QT_VERSION_CHECK(5, 0, 0)
-Q_EXPORT_PLUGIN2(nemoconfiguration, NemoConfigurationValuePlugin);
-#endif
 
 #include "plugin.moc"

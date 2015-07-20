@@ -49,12 +49,12 @@ void ConfigurationGroup::componentComplete()
     resolveMetaObject(staticMetaObject.propertyCount());
 }
 
-QDeclarativeListProperty<QObject> ConfigurationGroup::data()
+QQmlListProperty<QObject> ConfigurationGroup::data()
 {
-    return QDeclarativeListProperty<QObject>(this, 0, data_append, data_count, data_at, data_clear);
+    return QQmlListProperty<QObject>(this, 0, data_append, data_count, data_at, data_clear);
 }
 
-void ConfigurationGroup::data_append(QDeclarativeListProperty<QObject> *property, QObject *value)
+void ConfigurationGroup::data_append(QQmlListProperty<QObject> *property, QObject *value)
 {
     ConfigurationGroup *settings = static_cast<ConfigurationGroup *>(property->object);
     settings->m_data.append(value);
@@ -62,17 +62,17 @@ void ConfigurationGroup::data_append(QDeclarativeListProperty<QObject> *property
         child->setScope(settings);
 }
 
-QObject *ConfigurationGroup::data_at(QDeclarativeListProperty<QObject> *property, int index)
+QObject *ConfigurationGroup::data_at(QQmlListProperty<QObject> *property, int index)
 {
     return static_cast<ConfigurationGroup *>(property->object)->m_data.at(index);
 }
 
-int ConfigurationGroup::data_count(QDeclarativeListProperty<QObject> *property)
+int ConfigurationGroup::data_count(QQmlListProperty<QObject> *property)
 {
     return static_cast<ConfigurationGroup *>(property->object)->m_data.count();
 }
 
-void ConfigurationGroup::data_clear(QDeclarativeListProperty<QObject> *property)
+void ConfigurationGroup::data_clear(QQmlListProperty<QObject> *property)
 {
     ConfigurationGroup *settings = static_cast<ConfigurationGroup *>(property->object);
     QList<QObject *> data = settings->m_data;

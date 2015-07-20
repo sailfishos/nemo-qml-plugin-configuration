@@ -30,13 +30,9 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE."
  */
 
-#include <QDirIterator>
-#include <QDir>
-#include <QDebug>
-#include <QDateTime>
-#include <QUrl>
-
 #include "configurationvalue.h"
+
+#include <MGConfItem>
 
 ConfigurationValue::ConfigurationValue(QObject *parent)
     : QObject(parent)
