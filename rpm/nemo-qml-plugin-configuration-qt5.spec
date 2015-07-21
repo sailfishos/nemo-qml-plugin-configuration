@@ -40,4 +40,5 @@ rm -rf %{buildroot}
 
 %files tests
 %defattr(-,root,root,-)
-/opt/tests/nemo-qml-plugins/configuration-qt5
+/opt/tests/nemo-qml-plugins/configuration
+
