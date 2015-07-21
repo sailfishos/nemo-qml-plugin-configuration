@@ -1,0 +1,15 @@
+/*!
+\qmlmodule org.nemomobile.Configuration 1.0
+\contentspage
+\title Nemo QML Plugin Configuration
+\brief Provides types to access configuration settings from QML
+
+The Configuration module provides types to access configuration settings stored in DConf from QML.
+The types provide a property-based API supporting asynchronous reading and writing of configuration
+values and change notifications. Enabling DConf to be used seamlessly within QML property bindings.
+
+The Configuration module includes the following types:
+
+\generatelist classes
+
+*/

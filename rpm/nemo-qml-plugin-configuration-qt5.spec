@@ -9,6 +9,7 @@ Source0:    %{name}-%{version}.tar.bz2
 BuildRequires:  pkgconfig(Qt5Core)
 BuildRequires:  pkgconfig(Qt5Qml)
 BuildRequires:  pkgconfig(mlite5)
+Buildrequires:  mer-qdoc-template
 
 %description
 %{summary}.
@@ -21,16 +22,26 @@ Requires:   %{name} = %{version}-%{release}
 %description tests
 %{summary}.
 
+%package doc
+Summary:    Configuration plugin documentation
+Group:      System/Libraries
+
+%description doc
+%{summary}.
+
+
 %prep
 %setup -q -n %{name}-%{version}
 
 %build
 %qmake5 
 make %{?jobs:-j%jobs}
+make %{?jobs:-j%jobs} docs
 
 %install
 rm -rf %{buildroot}
 %qmake_install
+make install_docs INSTALL_ROOT=%{buildroot}
 
 %files
 %defattr(-,root,root,-)
@@ -42,3 +53,7 @@ rm -rf %{buildroot}
 %defattr(-,root,root,-)
 /opt/tests/nemo-qml-plugins/configuration
 
+%files doc
+%defattr(-,root,root,-)
+%dir %{_datadir}/doc/nemo-qml-plugin-configuration
+%{_datadir}/doc/nemo-qml-plugin-configuration/nemo-qml-plugin-configuration.qch
