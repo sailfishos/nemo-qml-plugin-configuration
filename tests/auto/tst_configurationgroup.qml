@@ -3,12 +3,10 @@ import QtQuick 2.0
 import org.nemomobile.configuration 1.0
 
 Item {
-    width: 500; height: 500
-
     ConfigurationGroup {
         id: settings1
 
-        path: "/opt/tests/org/nemomobile/gconf"
+        path: "/opt/tests/org/nemomobile/configuration/group"
 
         ConfigurationGroup {
             id: child1
@@ -27,7 +25,7 @@ Item {
     ConfigurationGroup {
         id: settings2
 
-        path: "/opt/tests/org/nemomobile/gconf"
+        path: settings1.path
 
         ConfigurationGroup {
             id: child2
@@ -65,76 +63,30 @@ Item {
             settings1.clear()
         }
 
-        function test_integerProperty() {
-            child1.integerProperty = 65
-            compare(child1.integerProperty, 65)
-            compare(child2.integerProperty, 4)
-
-            child2.path = "child1"
-            compare(child2.integerProperty, 65)
-
-            child1.integerProperty = 4
-            tryCompare(child2, "integerProperty", 4)
+        function test_groupProperties_data() {
+            return [
+                { tag: "integer", property: "integerProperty", value1: 64, value2: 4 },
+                { tag: "real", property: "realProperty", value1: 0.5, value2: 12.5 },
+                { tag: "boolean", property: "booleanProperty", value1: true, value2: false },
+                { tag: "string", property: "stringProperty", value1: "changed", value2: "default" },
+                { tag: "list<string>", property: "stringListProperty",
+                  value1: [ "a", "B", "c", "d" ], value2: [ "one", "two", "three" ] },
+                { tag: "list<integer>", property: "integerListProperty",
+                  value1: [ 8, 7, 5 ], value2: [ 1, 2, 3 ] }
+            ]
         }
 
-        function test_realProperty() {
-            child1.realProperty = 0.5
-            compare(child1.realProperty, 0.5)
-            compare(child2.realProperty, 12.5)
+        function test_groupProperties(data) {
+            child1[data.property] = data.value1
+
+            tryCompare(child1, data.property, data.value1)
+            tryCompare(child2, data.property, data.value2)
 
             child2.path = "child1"
-            compare(child2.realProperty, 0.5)
+            tryCompare(child2, data.property, data.value1)
 
-            child1.realProperty = 12.5
-            tryCompare(child2, "realProperty", 12.5)
-        }
-
-        function test_booleanProperty() {
-            child1.booleanProperty = true
-            compare(child1.booleanProperty, true)
-            compare(child2.booleanProperty, false)
-
-            child2.path = "child1"
-            compare(child2.booleanProperty, true)
-
-            child1.booleanProperty = false
-            tryCompare(child2, "booleanProperty", false)
-        }
-
-        function test_stringProperty() {
-            child1.stringProperty = "changed"
-            compare(child1.stringProperty, "changed")
-            compare(child2.stringProperty, "default")
-
-            child2.path = "child1"
-            compare(child2.stringProperty, "changed")
-
-            child1.stringProperty = "default"
-            tryCompare(child2, "stringProperty", "default")
-        }
-
-        function test_stringListProperty() {
-            child1.stringListProperty = [ "a", "B", "c", "d" ]
-            compare(child1.stringListProperty, [ "a", "B", "c", "d" ])
-            compare(child2.stringListProperty, [ "one", "two", "three" ])
-
-            child2.path = "child1"
-            compare(child2.stringListProperty, [ "a", "B", "c", "d" ])
-
-            child1.stringListProperty = [ "one", "two", "three" ]
-            tryCompare(child2, "stringListProperty", [ "one", "two", "three" ])
-        }
-
-        function test_integerListProperty() {
-            child1.integerListProperty = [ 8, 7, 5 ]
-            compare(child1.integerListProperty, [ 8, 7, 5 ])
-            compare(child2.integerListProperty, [ 1, 2, 3 ])
-
-            child2.path = "child1"
-            compare(child2.integerListProperty, [ 8, 7, 5 ])
-
-            child1.integerListProperty = [ 1, 2, 3 ]
-            tryCompare(child2, "integerListProperty", [ 1, 2, 3 ])
+            child1[data.property] = data.value2
+            tryCompare(child2, data.property, data.value2)
         }
     }
 }
