@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testdefinition version="1.0">
+   <suite name="nemo-qml-plugin-configuration-tests" domain="mw">
+       <set name="unit-tests" feature="nemo-qml-plugin-configuration">
+           <case name="ConfigurationValue">
+               <step>/usr/lib/qt5/bin/qmltestrunner -input /opt/tests/nemo-qml-plugins/configuration/auto/tst_configurationvalue.qml</step>
+           </case>
+           <case name="ConfigurationGroup">
+               <step>/usr/lib/qt5/bin/qmltestrunner -input /opt/tests/nemo-qml-plugins/configuration/auto/tst_configurationgroup.qml</step>
+           </case>
+       </set>
+   </suite>
+</testdefinition>
