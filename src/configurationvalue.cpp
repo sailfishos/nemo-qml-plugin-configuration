@@ -30,13 +30,61 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE."
  */
 
-#include <QDirIterator>
-#include <QDir>
-#include <QDebug>
-#include <QDateTime>
-#include <QUrl>
-
 #include "configurationvalue.h"
+
+#include <MGConfItem>
+
+/*!
+    \qmltype ConfigurationValue
+    \inqmlmodule org.nemomobile.Configuration
+    \brief Provides access to a single configuration value
+
+    ConfigurationValue provides access to a single DConf key. The DConf key value is accessible via
+    the \l value property.
+
+    \section2 Type conversion
+
+    Values are automatically converted between QML/JS and DConf values as needed.
+
+    \table
+        \header
+            \li QML/JS type
+            \li DConf type
+            \li Notes
+        \row
+            \li undefined
+            \li
+            \li An undefined value denotes an unset DConf key.
+        \row
+            \li double
+            \li double
+            \li
+        \row
+            \li int
+            \li integer
+            \li
+        \row
+            \li bool
+            \li boolean
+            \li
+        \row
+            \li string
+            \li string
+            \li DConf strings are always UTF-8 encoded.
+        \row
+            \li list<string>
+            \li list of strings
+            \li
+        \row
+            \li list<variant>
+            \li list of variants
+            \li DConf requires that all elements of a list have the same type. If the variant type
+                is \c string a list<string> will be returned instead of list<variant>.
+        \row
+    \endtable
+
+    Unsupported types, which cannot be converted to a supported type, are ignored.
+*/
 
 ConfigurationValue::ConfigurationValue(QObject *parent)
     : QObject(parent)
@@ -44,6 +92,11 @@ ConfigurationValue::ConfigurationValue(QObject *parent)
 {
 }
 
+/*!
+    \qmlproperty string ConfigurationValue::key
+
+    This property holds the key that this ConfigurationValue represents.
+*/
 QString ConfigurationValue::key() const
 {
     if (!mItem)
@@ -73,6 +126,11 @@ void ConfigurationValue::setKey(const QString &newKey)
         emit valueChanged();
 }
 
+/*!
+    \qmlproperty variant ConfigurationValue::value
+
+    This property holds the configuration value represented by \l key.
+*/
 QVariant ConfigurationValue::value() const
 {
     if (!mItem)
@@ -88,6 +146,11 @@ void ConfigurationValue::setValue(const QVariant &value)
     // MGConfItem will emit valueChanged for us
 }
 
+/*!
+    \qmlproperty variant ConfigurationValue::defaultValue
+
+    This property holds the default value of the \l value property if \l key does not exist.
+*/
 QVariant ConfigurationValue::defaultValue() const
 {
     return mDefaultValue;
@@ -108,6 +171,11 @@ void ConfigurationValue::setDefaultValue(const QVariant &value)
         emit valueChanged();
 }
 
+/*!
+    \qmlmethod void ConfigurationValue::sync()
+
+    Forces the value to be synchronized with the backing store.
+*/
 void ConfigurationValue::sync()
 {
     if (mItem) {

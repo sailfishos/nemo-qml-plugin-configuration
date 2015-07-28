@@ -34,23 +34,19 @@
 
 #include <MDConfGroup>
 
-#if QT_VERSION_5
-# include <QQmlParserStatus>
-# include <QQmlListProperty>
-# define QDeclarativeParserStatus QQmlParserStatus
-# define QDeclarativeListProperty QQmlListProperty
-#else
-# include <qdeclarative.h>
-# include <QDeclarativeParserStatus>
-# include <QDeclarativeListProperty>
-#endif
+#include <QtQml/QQmlParserStatus>
+#include <QtQml/QQmlListProperty>
 
-class ConfigurationGroup : public MDConfGroup, public QDeclarativeParserStatus
+class ConfigurationGroup : public MDConfGroup, public QQmlParserStatus
 {
     Q_OBJECT
-    Q_PROPERTY(QDeclarativeListProperty<QObject> data READ data CONSTANT)
-    Q_INTERFACES(QDeclarativeParserStatus)
+
+    Q_PROPERTY(QQmlListProperty<QObject> data READ data CONSTANT)
+
+    Q_INTERFACES(QQmlParserStatus)
+
     Q_CLASSINFO("DefaultProperty", "data")
+
 public:
     ConfigurationGroup(QObject *parent = 0);
     ~ConfigurationGroup();
@@ -58,12 +54,12 @@ public:
     void classBegin();
     void componentComplete();
 
-    QDeclarativeListProperty<QObject> data();
+    QQmlListProperty<QObject> data();
 
-    static void data_append(QDeclarativeListProperty<QObject> *property, QObject *value);
-    static QObject *data_at(QDeclarativeListProperty<QObject> *property, int index);
-    static int data_count(QDeclarativeListProperty<QObject> *property);
-    static void data_clear(QDeclarativeListProperty<QObject> *property);
+    static void data_append(QQmlListProperty<QObject> *property, QObject *value);
+    static QObject *data_at(QQmlListProperty<QObject> *property, int index);
+    static int data_count(QQmlListProperty<QObject> *property);
+    static void data_clear(QQmlListProperty<QObject> *property);
 
     QList<QObject *> m_data;
 };

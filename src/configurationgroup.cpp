@@ -31,6 +31,85 @@
 
 #include "configurationgroup.h"
 
+/*!
+    \qmltype ConfigurationGroup
+    \inqmlmodule org.nemomobile.Configuration
+    \brief Provides access to a group of configuration values
+
+    ConfigurationGroup provides access to a group of DConf key values relative to \l path.
+    ConfigurationGroups can be nested in which case \l path is relative to the parent
+    ConfigurationGroup.
+
+    Key values can be accessed using the \l value() and \l setValue() methods. Value change
+    notifications are via the \l valueChanged and \l valuesChanged signals.
+
+    Properties declared on the ConfigurationGroup will be synchronized with DConf keys with the same
+    name. Due to the requirement that QML properties start with a lower case letter this method does
+    not allow accessing all possible key values. The \l value() and \l setValue() methods can be
+    used in these cases.
+*/
+
+/*!
+    \qmlproperty bool ConfigurationGroup::synchronous
+
+    This property holds whether synchronous access is used.
+
+    Defaults to false.
+*/
+
+/*!
+    \qmlproperty string ConfigurationGroup::path
+
+    This property holds the path of the configuration group. If this ConfigurationGroup is nested
+    within another ConfigurationGroup then \c path is relative to the \c path of the parent group.
+*/
+
+/*!
+    \qmlproperty ConfigurationGroup ConfigurationGroup::scope
+
+    This property holds the parent scope of the configuration group. The \l path property is
+    relative to the \c path of the parent scope.
+
+    This property is automatically set when creating nested ConfigurationGroups.
+*/
+
+/*!
+    \qmlmethod variant ConfigurationGroup::value(string key, variant defaultValue, int typeHint)
+
+    Returns the value of \a key as a variant. If \a key does not exist \a defaultValue will be
+    returned. If specified, the key value will be converted to the meta type id \a typeHint.
+*/
+
+/*!
+    \qmlmethod void ConfigurationGroup::setValue(string key, variant value)
+
+    Sets the value of \a key to \a value.
+*/
+
+/*!
+    \qmlmethod void ConfigurationGroup::sync()
+
+    Forces any pending writes to be synchronized with the backing store.
+*/
+
+/*!
+    \qmlmethod void ConfigurationGroup::clear()
+
+    Clears all values for properties in this configuration group.
+*/
+
+/*!
+    \qmlsignal ConfigurationGroup::valueChanged(key)
+
+    This signal is emitted when the value of \a key changes.
+*/
+
+/*!
+    \qmlsignal ConfigurationGroup::valuesChanged()
+
+    This signal is emitted when unknown properties of this configuration group change.
+*/
+
 ConfigurationGroup::ConfigurationGroup(QObject *parent)
     : MDConfGroup(parent, BindProperties)
 {
@@ -49,12 +128,12 @@ void ConfigurationGroup::componentComplete()
     resolveMetaObject(staticMetaObject.propertyCount());
 }
 
-QDeclarativeListProperty<QObject> ConfigurationGroup::data()
+QQmlListProperty<QObject> ConfigurationGroup::data()
 {
-    return QDeclarativeListProperty<QObject>(this, 0, data_append, data_count, data_at, data_clear);
+    return QQmlListProperty<QObject>(this, 0, data_append, data_count, data_at, data_clear);
 }
 
-void ConfigurationGroup::data_append(QDeclarativeListProperty<QObject> *property, QObject *value)
+void ConfigurationGroup::data_append(QQmlListProperty<QObject> *property, QObject *value)
 {
     ConfigurationGroup *settings = static_cast<ConfigurationGroup *>(property->object);
     settings->m_data.append(value);
@@ -62,17 +141,17 @@ void ConfigurationGroup::data_append(QDeclarativeListProperty<QObject> *property
         child->setScope(settings);
 }
 
-QObject *ConfigurationGroup::data_at(QDeclarativeListProperty<QObject> *property, int index)
+QObject *ConfigurationGroup::data_at(QQmlListProperty<QObject> *property, int index)
 {
     return static_cast<ConfigurationGroup *>(property->object)->m_data.at(index);
 }
 
-int ConfigurationGroup::data_count(QDeclarativeListProperty<QObject> *property)
+int ConfigurationGroup::data_count(QQmlListProperty<QObject> *property)
 {
     return static_cast<ConfigurationGroup *>(property->object)->m_data.count();
 }
 
-void ConfigurationGroup::data_clear(QDeclarativeListProperty<QObject> *property)
+void ConfigurationGroup::data_clear(QQmlListProperty<QObject> *property)
 {
     ConfigurationGroup *settings = static_cast<ConfigurationGroup *>(property->object);
     QList<QObject *> data = settings->m_data;
