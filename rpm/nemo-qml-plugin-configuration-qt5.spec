@@ -48,6 +48,7 @@ make install_docs INSTALL_ROOT=%{buildroot}
 %dir %{_libdir}/qt5/qml/org/nemomobile/configuration
 %{_libdir}/qt5/qml/org/nemomobile/configuration/libnemoconfiguration.so
 %{_libdir}/qt5/qml/org/nemomobile/configuration/qmldir
+%{_libdir}/qt5/qml/org/nemomobile/configuration/plugins.qmltypes
 
 %files tests
 %defattr(-,root,root,-)
