@@ -33,7 +33,7 @@
 
 /*!
     \qmltype ConfigurationGroup
-    \inqmlmodule org.nemomobile.Configuration
+    \inqmlmodule org.nemomobile.configuration
     \brief Provides access to a group of configuration values
 
     ConfigurationGroup provides access to a group of DConf key values relative to \l path.
