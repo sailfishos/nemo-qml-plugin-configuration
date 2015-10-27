@@ -9,7 +9,7 @@ Source0:    %{name}-%{version}.tar.bz2
 BuildRequires:  pkgconfig(Qt5Core)
 BuildRequires:  pkgconfig(Qt5Qml)
 BuildRequires:  pkgconfig(mlite5)
-Buildrequires:  mer-qdoc-template
+BuildRequires:  mer-qdoc-template
 
 %description
 %{summary}.
