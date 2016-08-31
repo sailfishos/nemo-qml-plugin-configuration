@@ -33,6 +33,9 @@
 #include "configurationvalue.h"
 
 #include <MGConfItem>
+#include <QJSValue>
+
+#include <QDebug>
 
 /*!
     \qmltype ConfigurationValue
@@ -141,8 +144,16 @@ QVariant ConfigurationValue::value() const
 
 void ConfigurationValue::setValue(const QVariant &value)
 {
-    if (mItem)
+    if (!mItem)
+        return;
+
+    if (value.userType() == QMetaType::type("QJSValue")) {
+        // Qt 5.6 likes to pass a QJSValue
+        QJSValue jsValue = qvariant_cast<QJSValue>(value);
+        mItem->set(jsValue.toVariant());
+    } else {
         mItem->set(value); // TODO: setValue once we change MGConfItem API
+    }
     // MGConfItem will emit valueChanged for us
 }
 
