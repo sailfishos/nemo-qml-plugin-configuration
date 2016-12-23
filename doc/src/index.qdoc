@@ -1,5 +1,5 @@
 /*!
-\qmlmodule org.nemomobile.configuration 1.0
+\qmlmodule Nemo.Configuration 1.0
 \title Nemo QML Plugin Configuration
 \brief Provides types to access configuration settings from QML
 

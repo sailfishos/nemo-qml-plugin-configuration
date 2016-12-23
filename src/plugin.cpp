@@ -39,14 +39,14 @@ class Q_DECL_EXPORT NemoConfigurationValuePlugin : public QQmlExtensionPlugin
 {
     Q_OBJECT
 
-    Q_PLUGIN_METADATA(IID "org.nemomobile.configuration")
+    Q_PLUGIN_METADATA(IID "Nemo.Configuration")
 
 public:
     virtual ~NemoConfigurationValuePlugin() { }
 
     void registerTypes(const char *uri)
     {
-        Q_ASSERT(uri == QLatin1String("org.nemomobile.configuration"));
+        Q_ASSERT(uri == QLatin1String("Nemo.Configuration") || uri == QLatin1String("org.nemomobile.configuration"));
         qmlRegisterType<ConfigurationGroup>(uri, 1, 0, "ConfigurationGroup");
         qmlRegisterType<ConfigurationValue>(uri, 1, 0, "ConfigurationValue");
     }

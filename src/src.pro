@@ -1,5 +1,5 @@
 TARGET = nemoconfiguration
-PLUGIN_IMPORT_PATH = org/nemomobile/configuration
+PLUGIN_IMPORT_PATH = Nemo/Configuration
 
 TEMPLATE = lib
 CONFIG = qt plugin hide_symbols

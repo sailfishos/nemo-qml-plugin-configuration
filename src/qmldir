@@ -1,2 +1,2 @@
-module org.nemomobile.configuration
+module Nemo.Configuration
 plugin nemoconfiguration
