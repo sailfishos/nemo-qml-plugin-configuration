@@ -39,7 +39,7 @@
 
 /*!
     \qmltype ConfigurationValue
-    \inqmlmodule org.nemomobile.configuration
+    \inqmlmodule Nemo.Configuration
     \brief Provides access to a single configuration value
 
     ConfigurationValue provides access to a single DConf key. The DConf key value is accessible via

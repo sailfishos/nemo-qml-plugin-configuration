@@ -43,12 +43,22 @@ rm -rf %{buildroot}
 %qmake_install
 make install_docs INSTALL_ROOT=%{buildroot}
 
+# org.nemomobile.configuration legacy import
+mkdir -p %{buildroot}%{_libdir}/qt5/qml/org/nemomobile/configuration/
+ln -sf %{_libdir}/qt5/qml/Nemo/Configuration/libnemoconfiguration.so %{buildroot}%{_libdir}/qt5/qml/org/nemomobile/configuration/
+sed 's/Nemo.Configuration/org.nemomobile.configuration/' < src/qmldir > %{buildroot}%{_libdir}/qt5/qml/org/nemomobile/configuration/qmldir
+
 %files
 %defattr(-,root,root,-)
+%dir %{_libdir}/qt5/qml/Nemo/Configuration
+%{_libdir}/qt5/qml/Nemo/Configuration/libnemoconfiguration.so
+%{_libdir}/qt5/qml/Nemo/Configuration/qmldir
+%{_libdir}/qt5/qml/Nemo/Configuration/plugins.qmltypes
+
+# org.nemomobile.configuration legacy import
 %dir %{_libdir}/qt5/qml/org/nemomobile/configuration
 %{_libdir}/qt5/qml/org/nemomobile/configuration/libnemoconfiguration.so
 %{_libdir}/qt5/qml/org/nemomobile/configuration/qmldir
-%{_libdir}/qt5/qml/org/nemomobile/configuration/plugins.qmltypes
 
 %files tests
 %defattr(-,root,root,-)
