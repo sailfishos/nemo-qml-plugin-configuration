@@ -16,6 +16,12 @@ qhp.NemoQmlPluginConfiguration.indexRoot =
 
 qhp.NemoQmlPluginConfiguration.filterAttributes = nemo-qml-plugin-configuration 1.0
 
+qhp.NemoQmlPluginConfiguration.subprojects = qmltypes
+qhp.NemoQmlPluginConfiguration.subprojects.qmltypes.title = QML Types
+qhp.NemoQmlPluginConfiguration.subprojects.qmltypes.indexTitle = Nemo.Configuration QML Types
+qhp.NemoQmlPluginConfiguration.subprojects.qmltypes.selectors = qmlclass
+qhp.NemoQmlPluginConfiguration.subprojects.qmltypes.sortPages = true
+
 HTML.footer += \
     "<div class=\"footer\">\n" \
     "  <p><acronym title=\"Copyright\">&copy;</acronym> 2015 Jolla OY</p>\n" \
