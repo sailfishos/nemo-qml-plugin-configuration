@@ -14,6 +14,9 @@ qmldir.files += \
 qmldir.path +=  $$target.path
 INSTALLS += qmldir
 
+qmltypes.commands = qmlplugindump -nonrelocatable Nemo.Configuration 1.0 > $$PWD/plugins.qmltypes
+QMAKE_EXTRA_TARGETS += qmltypes
+
 SOURCES += plugin.cpp \
            configurationgroup.cpp \
            configurationvalue.cpp
