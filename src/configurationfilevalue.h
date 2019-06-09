@@ -1,5 +1,6 @@
+
 /*
- * Copyright (C) 2012 Jolla Ltd. <robin.burchell@jollamobile.com>
+ * Copyright (C) 2019 Jolla Ltd. <timur.kristof@jollamobile.com>
  *
  * You may use this file under the terms of the BSD license as follows:
  *
@@ -29,31 +30,49 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE."
  */
 
-#include <QtQml/qqml.h>
-#include <QtQml/QQmlExtensionPlugin>
+#ifndef CONFIGURATIONFILEVALUE_H
+#define CONFIGURATIONFILEVALUE_H
 
-#include "configurationgroup.h"
-#include "configurationvalue.h"
-#include "configurationfile.h"
-#include "configurationfilevalue.h"
+#include <QtCore/QObject>
+#include <QtCore/QString>
+#include <QtCore/QVariant>
 
-class Q_DECL_EXPORT NemoConfigurationValuePlugin : public QQmlExtensionPlugin
+class ConfigurationFile;
+
+class ConfigurationFileValue : public QObject
 {
     Q_OBJECT
 
-    Q_PLUGIN_METADATA(IID "Nemo.Configuration")
+    Q_PROPERTY(QString key READ key WRITE setKey NOTIFY keyChanged)
+    Q_PROPERTY(QVariant value READ value WRITE setValue NOTIFY valueChanged)
+    Q_PROPERTY(QVariant defaultValue READ defaultValue WRITE setDefaultValue NOTIFY defaultValueChanged)
+    Q_PROPERTY(ConfigurationFile* configurationFile READ configurationFile WRITE setConfigurationFile NOTIFY configurationFileChanged)
 
 public:
-    virtual ~NemoConfigurationValuePlugin() { }
+    ConfigurationFileValue(QObject *parent = 0);
 
-    void registerTypes(const char *uri)
-    {
-        Q_ASSERT(uri == QLatin1String("Nemo.Configuration") || uri == QLatin1String("org.nemomobile.configuration"));
-        qmlRegisterType<ConfigurationGroup>(uri, 1, 0, "ConfigurationGroup");
-        qmlRegisterType<ConfigurationValue>(uri, 1, 0, "ConfigurationValue");
-        qmlRegisterType<ConfigurationFile>(uri, 1, 0, "ConfigurationFile");
-        qmlRegisterType<ConfigurationFileValue>(uri, 1, 0, "ConfigurationFileValue");
-    }
+    QString key() const;
+    void setKey(const QString &key);
+
+    QVariant value() const;
+    void setValue(const QVariant &value);
+
+    QVariant defaultValue() const;
+    void setDefaultValue(const QVariant &value);
+
+    ConfigurationFile *configurationFile() const;
+    void setConfigurationFile(ConfigurationFile *file);
+
+signals:
+    void keyChanged();
+    void valueChanged();
+    void defaultValueChanged();
+    void configurationFileChanged();
+
+private:
+    QString m_key;
+    QVariant m_defaultValue;
+    ConfigurationFile *m_configurationFile;
 };
 
-#include "plugin.moc"
+#endif // CONFIGURATIONFILEVALUE_H

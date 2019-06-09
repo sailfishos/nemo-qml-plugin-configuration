@@ -19,10 +19,14 @@ QMAKE_EXTRA_TARGETS += qmltypes
 
 SOURCES += plugin.cpp \
            configurationgroup.cpp \
-           configurationvalue.cpp
+           configurationvalue.cpp \
+           configurationfile.cpp \
+           configurationfilevalue.cpp
 
 HEADERS += configurationgroup.h \
-           configurationvalue.h
+           configurationvalue.h \
+           configurationfile.h \
+           configurationfilevalue.h
 
 CONFIG += link_pkgconfig
 PKGCONFIG += mlite5

@@ -1,5 +1,6 @@
+
 /*
- * Copyright (C) 2012 Jolla Ltd. <robin.burchell@jollamobile.com>
+ * Copyright (C) 2019 Jolla Ltd. <timur.kristof@jollamobile.com>
  *
  * You may use this file under the terms of the BSD license as follows:
  *
@@ -29,31 +30,74 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE."
  */
 
-#include <QtQml/qqml.h>
-#include <QtQml/QQmlExtensionPlugin>
-
-#include "configurationgroup.h"
-#include "configurationvalue.h"
 #include "configurationfile.h"
-#include "configurationfilevalue.h"
 
-class Q_DECL_EXPORT NemoConfigurationValuePlugin : public QQmlExtensionPlugin
+#include <QtCore/QDebug>
+#include <QtCore/QDir>
+#include <QtCore/QStandardPaths>
+
+ConfigurationFile::ConfigurationFile(QObject *parent)
+    : QObject(parent)
+    , m_active(true)
+    , m_settings(0)
 {
-    Q_OBJECT
+}
 
-    Q_PLUGIN_METADATA(IID "Nemo.Configuration")
-
-public:
-    virtual ~NemoConfigurationValuePlugin() { }
-
-    void registerTypes(const char *uri)
-    {
-        Q_ASSERT(uri == QLatin1String("Nemo.Configuration") || uri == QLatin1String("org.nemomobile.configuration"));
-        qmlRegisterType<ConfigurationGroup>(uri, 1, 0, "ConfigurationGroup");
-        qmlRegisterType<ConfigurationValue>(uri, 1, 0, "ConfigurationValue");
-        qmlRegisterType<ConfigurationFile>(uri, 1, 0, "ConfigurationFile");
-        qmlRegisterType<ConfigurationFileValue>(uri, 1, 0, "ConfigurationFileValue");
+void ConfigurationFile::reset()
+{
+    if (!m_active || m_fileName.isEmpty()) {
+        m_settings.reset(0);
+        emit fileChanged();
+        return;
     }
-};
 
-#include "plugin.moc"
+    QSettings *settings = new QSettings(m_fileName, QSettings::IniFormat);
+    m_settings.reset(settings);
+    emit fileChanged();
+}
+
+bool ConfigurationFile::active() const
+{
+    return m_active;
+}
+
+void ConfigurationFile::setActive(bool value)
+{
+    if (value != m_active) {
+        m_active = value;
+        reset();
+    }
+}
+
+QString ConfigurationFile::fileName() const
+{
+    return m_fileName;
+}
+
+void ConfigurationFile::setFileName(const QString &value)
+{
+    if (value != m_fileName) {
+        m_fileName = value;
+        reset();
+    }
+}
+
+QVariant ConfigurationFile::read(const QString &key, QVariant defaultValue)
+{
+    if (m_settings.isNull()) {
+        return QVariant();
+    }
+
+    return m_settings->value(key, defaultValue);
+}
+
+bool ConfigurationFile::write(const QString &key, QVariant value)
+{
+    if (m_settings.isNull()) {
+        return false;
+    }
+
+    m_settings->setValue(key, value);
+    emit fileChanged();
+    return true;
+}

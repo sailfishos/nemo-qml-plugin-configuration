@@ -1,5 +1,6 @@
+
 /*
- * Copyright (C) 2012 Jolla Ltd. <robin.burchell@jollamobile.com>
+ * Copyright (C) 2019 Jolla Ltd. <timur.kristof@jollamobile.com>
  *
  * You may use this file under the terms of the BSD license as follows:
  *
@@ -29,31 +30,45 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE."
  */
 
-#include <QtQml/qqml.h>
-#include <QtQml/QQmlExtensionPlugin>
+#ifndef CONFIGURATIONFILE_H
+#define CONFIGURATIONFILE_H
 
-#include "configurationgroup.h"
-#include "configurationvalue.h"
-#include "configurationfile.h"
-#include "configurationfilevalue.h"
+#include <QtCore/QObject>
+#include <QtCore/QString>
+#include <QtCore/QScopedPointer>
+#include <QtCore/QSettings>
+#include <QtCore/QFileSystemWatcher>
 
-class Q_DECL_EXPORT NemoConfigurationValuePlugin : public QQmlExtensionPlugin
+class ConfigurationFile : public QObject
 {
     Q_OBJECT
 
-    Q_PLUGIN_METADATA(IID "Nemo.Configuration")
+    Q_PROPERTY(bool active READ active WRITE setActive NOTIFY activeChanged)
+    Q_PROPERTY(QString fileName READ fileName WRITE setFileName NOTIFY fileNameChanged)
 
 public:
-    virtual ~NemoConfigurationValuePlugin() { }
+    ConfigurationFile(QObject *parent = 0);
 
-    void registerTypes(const char *uri)
-    {
-        Q_ASSERT(uri == QLatin1String("Nemo.Configuration") || uri == QLatin1String("org.nemomobile.configuration"));
-        qmlRegisterType<ConfigurationGroup>(uri, 1, 0, "ConfigurationGroup");
-        qmlRegisterType<ConfigurationValue>(uri, 1, 0, "ConfigurationValue");
-        qmlRegisterType<ConfigurationFile>(uri, 1, 0, "ConfigurationFile");
-        qmlRegisterType<ConfigurationFileValue>(uri, 1, 0, "ConfigurationFileValue");
-    }
+    bool active() const;
+    void setActive(bool value);
+
+    QString fileName() const;
+    void setFileName(const QString &fileName);
+
+    Q_INVOKABLE QVariant read(const QString &key, QVariant defaultValue);
+    Q_INVOKABLE bool write(const QString &key, QVariant value);
+
+Q_SIGNALS:
+    void activeChanged();
+    void fileNameChanged();
+    void fileChanged();
+
+private:
+    void reset();
+
+    bool m_active;
+    QString m_fileName;
+    QScopedPointer<QSettings> m_settings;
 };
 
-#include "plugin.moc"
+#endif // CONFIGURATIONFILE_H
