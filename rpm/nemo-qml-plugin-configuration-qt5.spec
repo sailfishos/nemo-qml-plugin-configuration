@@ -1,22 +1,20 @@
 Name:       nemo-qml-plugin-configuration-qt5
 Summary:    Configuration plugin for Nemo Mobile
-Version:    0.0.0
+Version:    0.2.5
 Release:    1
-Group:      System/Libraries
 License:    BSD
-URL:        https://git.merproject.org/mer-core/nemo-qml-plugin-configuration
+URL:        https://github.com/sailfishos/nemo-qml-plugin-configuration/
 Source0:    %{name}-%{version}.tar.bz2
 BuildRequires:  pkgconfig(Qt5Core)
 BuildRequires:  pkgconfig(Qt5Qml)
 BuildRequires:  pkgconfig(mlite5)
-BuildRequires:  mer-qdoc-template
+BuildRequires:  sailfish-qdoc-template
 
 %description
 %{summary}.
 
 %package tests
 Summary:    Configuration plugin tests
-Group:      System/Libraries
 Requires:   %{name} = %{version}-%{release}
 
 %description tests
@@ -24,7 +22,6 @@ Requires:   %{name} = %{version}-%{release}
 
 %package doc
 Summary:    Configuration plugin documentation
-Group:      System/Libraries
 
 %description doc
 %{summary}.
@@ -35,13 +32,11 @@ Group:      System/Libraries
 
 %build
 %qmake5 
-make %{?jobs:-j%jobs}
-make %{?jobs:-j%jobs} docs
+%make_build
 
 %install
 rm -rf %{buildroot}
 %qmake_install
-make install_docs INSTALL_ROOT=%{buildroot}
 
 # org.nemomobile.configuration legacy import
 mkdir -p %{buildroot}%{_libdir}/qt5/qml/org/nemomobile/configuration/

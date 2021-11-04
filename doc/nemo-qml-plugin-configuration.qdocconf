@@ -2,14 +2,14 @@ project         = Nemo QML Plugin Configuration
 description     = Nemo QML Plugin Configuration Reference Documentation
 versionsym      =
 version         = 1.0
-url             = https://github.com/nemomobile/nemo-qml-plugin-configuration
+url             = https://github.com/sailfishos/nemo-qml-plugin-configuration
 
 sourcedirs += src ../src
 
 qhp.projects = NemoQmlPluginConfiguration
 
 qhp.NemoQmlPluginConfiguration.file = nemo-qml-plugin-configuration.qhp
-qhp.NemoQmlPluginConfiguration.namespace = org.nemomobile.qml-plugin-configuration.1.0
+qhp.NemoQmlPluginConfiguration.namespace = Nemo.Configuration.1.0
 qhp.NemoQmlPluginConfiguration.virtualFolder = nemo-qml-plugin-configuration
 qhp.NemoQmlPluginConfiguration.indexTitle = Nemo QML Plugin Configuration
 qhp.NemoQmlPluginConfiguration.indexRoot =
