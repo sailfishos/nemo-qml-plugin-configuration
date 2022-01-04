@@ -45,6 +45,7 @@ sed 's/Nemo.Configuration/org.nemomobile.configuration/' < src/qmldir > %{buildr
 
 %files
 %defattr(-,root,root,-)
+%license LICENSE.BSD
 %dir %{_libdir}/qt5/qml/Nemo/Configuration
 %{_libdir}/qt5/qml/Nemo/Configuration/libnemoconfiguration.so
 %{_libdir}/qt5/qml/Nemo/Configuration/qmldir
