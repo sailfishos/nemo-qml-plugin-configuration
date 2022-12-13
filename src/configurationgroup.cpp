@@ -140,13 +140,19 @@ void ConfigurationGroup::data_append(QQmlListProperty<QObject> *property, QObjec
     if (MDConfGroup *child = qobject_cast<MDConfGroup *>(value))
         child->setScope(settings);
 }
-
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
 QObject *ConfigurationGroup::data_at(QQmlListProperty<QObject> *property, int index)
+#else
+QObject *ConfigurationGroup::data_at(QQmlListProperty<QObject> *property, qsizetype index)
+#endif
 {
     return static_cast<ConfigurationGroup *>(property->object)->m_data.at(index);
 }
-
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
 int ConfigurationGroup::data_count(QQmlListProperty<QObject> *property)
+#else
+qsizetype ConfigurationGroup::data_count(QQmlListProperty<QObject> *property)
+#endif
 {
     return static_cast<ConfigurationGroup *>(property->object)->m_data.count();
 }
