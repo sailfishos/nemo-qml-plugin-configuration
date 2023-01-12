@@ -31,6 +31,7 @@
 
 #include <QtQml/qqml.h>
 #include <QtQml/QQmlExtensionPlugin>
+#include <QDebug>
 
 #include "configurationgroup.h"
 #include "configurationvalue.h"
@@ -47,6 +48,9 @@ public:
     void registerTypes(const char *uri)
     {
         Q_ASSERT(uri == QLatin1String("Nemo.Configuration") || uri == QLatin1String("org.nemomobile.configuration"));
+        if (uri == QLatin1String("org.nemomobile.configuration")) {
+            qWarning() << "org.nemomobile.configuration import is deprecated. Suggest migrating to Nemo.Configuration";
+        }
         qmlRegisterType<ConfigurationGroup>(uri, 1, 0, "ConfigurationGroup");
         qmlRegisterType<ConfigurationValue>(uri, 1, 0, "ConfigurationValue");
     }
