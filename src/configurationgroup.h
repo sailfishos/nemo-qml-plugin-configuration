@@ -57,8 +57,13 @@ public:
     QQmlListProperty<QObject> data();
 
     static void data_append(QQmlListProperty<QObject> *property, QObject *value);
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     static QObject *data_at(QQmlListProperty<QObject> *property, int index);
     static int data_count(QQmlListProperty<QObject> *property);
+#else
+    static QObject *data_at(QQmlListProperty<QObject> *property, qsizetype index);
+    static qsizetype data_count(QQmlListProperty<QObject> *property);
+#endif
     static void data_clear(QQmlListProperty<QObject> *property);
 
     QList<QObject *> m_data;

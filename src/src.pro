@@ -25,4 +25,4 @@ HEADERS += configurationgroup.h \
            configurationvalue.h
 
 CONFIG += link_pkgconfig
-PKGCONFIG += mlite5
+PKGCONFIG += mlite$${QT_MAJOR_VERSION}
