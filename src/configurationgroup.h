@@ -40,11 +40,8 @@
 class ConfigurationGroup : public MDConfGroup, public QQmlParserStatus
 {
     Q_OBJECT
-
     Q_PROPERTY(QQmlListProperty<QObject> data READ data CONSTANT)
-
     Q_INTERFACES(QQmlParserStatus)
-
     Q_CLASSINFO("DefaultProperty", "data")
 
 public:
