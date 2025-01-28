@@ -32,7 +32,7 @@
 
 #include "configurationvalue.h"
 
-#include <MGConfItem>
+#include <MDConfItem>
 #include <QJSValue>
 
 #include <QDebug>
@@ -120,7 +120,7 @@ void ConfigurationValue::setKey(const QString &newKey)
     if (newKey.isEmpty()) {
         mItem = 0;
     } else {
-        mItem = new MGConfItem(newKey, this);
+        mItem = new MDConfItem(newKey, this);
         connect(mItem, SIGNAL(valueChanged()), this, SIGNAL(valueChanged()));
     }
 
@@ -152,9 +152,9 @@ void ConfigurationValue::setValue(const QVariant &value)
         QJSValue jsValue = qvariant_cast<QJSValue>(value);
         mItem->set(jsValue.toVariant());
     } else {
-        mItem->set(value); // TODO: setValue once we change MGConfItem API
+        mItem->set(value); // TODO: setValue once we change MDConfItem API
     }
-    // MGConfItem will emit valueChanged for us
+    // MDConfItem will emit valueChanged for us
 }
 
 /*!

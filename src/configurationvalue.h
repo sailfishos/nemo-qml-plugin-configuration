@@ -35,7 +35,7 @@
 #include <QtCore/QObject>
 #include <QtCore/QVariant>
 
-class MGConfItem;
+class MDConfItem;
 
 class ConfigurationValue : public QObject
 {
@@ -66,7 +66,7 @@ signals:
     void defaultValueChanged();
 
 private:
-    MGConfItem *mItem;
+    MDConfItem *mItem;
     QVariant mDefaultValue;
 };
 

@@ -35,7 +35,6 @@ Summary:    Configuration plugin documentation
 %make_build
 
 %install
-rm -rf %{buildroot}
 %qmake_install
 
 # org.nemomobile.configuration legacy import
@@ -44,7 +43,6 @@ ln -sf %{_libdir}/qt5/qml/Nemo/Configuration/libnemoconfiguration.so %{buildroot
 sed 's/Nemo.Configuration/org.nemomobile.configuration/' < src/qmldir > %{buildroot}%{_libdir}/qt5/qml/org/nemomobile/configuration/qmldir
 
 %files
-%defattr(-,root,root,-)
 %license LICENSE.BSD
 %dir %{_libdir}/qt5/qml/Nemo/Configuration
 %{_libdir}/qt5/qml/Nemo/Configuration/libnemoconfiguration.so
@@ -57,10 +55,8 @@ sed 's/Nemo.Configuration/org.nemomobile.configuration/' < src/qmldir > %{buildr
 %{_libdir}/qt5/qml/org/nemomobile/configuration/qmldir
 
 %files tests
-%defattr(-,root,root,-)
 /opt/tests/nemo-qml-plugins/configuration
 
 %files doc
-%defattr(-,root,root,-)
 %dir %{_datadir}/doc/nemo-qml-plugin-configuration
 %{_datadir}/doc/nemo-qml-plugin-configuration/nemo-qml-plugin-configuration.qch
