@@ -55,7 +55,7 @@ sed 's/Nemo.Configuration/org.nemomobile.configuration/' < src/qmldir > %{buildr
 %{_libdir}/qt5/qml/org/nemomobile/configuration/qmldir
 
 %files tests
-/opt/tests/nemo-qml-plugins/configuration
+/opt/tests/nemo-qml-plugin-configuration-qt5
 
 %files doc
 %dir %{_datadir}/doc/nemo-qml-plugin-configuration
