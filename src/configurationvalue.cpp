@@ -91,7 +91,7 @@
 
 ConfigurationValue::ConfigurationValue(QObject *parent)
     : QObject(parent)
-    , mItem(0)
+    , mItem(nullptr)
 {
 }
 
@@ -118,10 +118,10 @@ void ConfigurationValue::setKey(const QString &newKey)
 
     delete mItem;
     if (newKey.isEmpty()) {
-        mItem = 0;
+        mItem = nullptr;
     } else {
         mItem = new MDConfItem(newKey, this);
-        connect(mItem, SIGNAL(valueChanged()), this, SIGNAL(valueChanged()));
+        connect(mItem, &MDConfItem::valueChanged, this, &ConfigurationValue::valueChanged);
     }
 
     emit keyChanged();
