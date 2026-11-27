@@ -91,7 +91,7 @@
 
 ConfigurationValue::ConfigurationValue(QObject *parent)
     : QObject(parent)
-    , mItem(0)
+    , mItem(nullptr)
 {
 }
 
@@ -118,10 +118,10 @@ void ConfigurationValue::setKey(const QString &newKey)
 
     delete mItem;
     if (newKey.isEmpty()) {
-        mItem = 0;
+        mItem = nullptr;
     } else {
         mItem = new MDConfItem(newKey, this);
-        connect(mItem, SIGNAL(valueChanged()), this, SIGNAL(valueChanged()));
+        connect(mItem, &MDConfItem::valueChanged, this, &ConfigurationValue::valueChanged);
     }
 
     emit keyChanged();
@@ -150,6 +150,35 @@ void ConfigurationValue::setValue(const QVariant &value)
     if (value.userType() == QMetaType::type("QJSValue")) {
         // Qt 5.6 likes to pass a QJSValue
         QJSValue jsValue = qvariant_cast<QJSValue>(value);
+
+        if (jsValue.isArray()) {
+            // try to flatten the type, e.g. string array as string list instead of string variants
+            const int length = jsValue.property("length").toInt();
+            if (length > 0) {
+                QMetaType::Type commonType = static_cast<QMetaType::Type>(jsValue.property(0).toVariant().type());
+
+                for (int i = 1; i < length; ++i) {
+                    if (jsValue.property(i).toVariant().type() != commonType) {
+                        commonType = QMetaType::UnknownType;
+                        break;
+                    }
+                }
+
+                if (commonType == QMetaType::QString) {
+                    QStringList stringList;
+                    for (int i = 0; i < length; ++i) {
+                        stringList.append(jsValue.property(i).toString());
+                    }
+
+                    mItem->set(stringList);
+                    return;
+                } else if (commonType != QMetaType::UnknownType) {
+                    // TODO: handle more types per need
+                    qDebug() << "No conversion for" << commonType << "storing variant list to dconf";
+                }
+            }
+        }
+
         mItem->set(jsValue.toVariant());
     } else {
         mItem->set(value); // TODO: setValue once we change MDConfItem API

@@ -168,7 +168,7 @@ void ConfigurationGroup::data_clear(QQmlListProperty<QObject> *property)
     foreach (QObject *object, data) {
         ConfigurationGroup *group = qobject_cast<ConfigurationGroup *>(object);
         if (group && group->scope() == settings) {
-            group->setScope(0);
+            group->setScope(nullptr);
         }
     }
 }
